@@ -57,6 +57,7 @@ def response(user_response):
     req_tfidf = flat[-2]
     if(req_tfidf==0):
         robo_response=robo_response+"DESCULPE MAS NÃO TE ENTENDI"
+        return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
         return robo_response
