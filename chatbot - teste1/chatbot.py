@@ -1,7 +1,7 @@
-#importando bibliotecas
+# bibliotecas necessárias
 import io
 import random
-import string # to process standard python strings
+import string # para processar strings do python padrão
 import warnings
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -9,18 +9,21 @@ from sklearn.metrics.pairwise import cosine_similarity
 import warnings
 warnings.filterwarnings('ignore')
 
+# Instalando Pacotes NLTK
 import nltk
 from nltk.stem import WordNetLemmatizer
-nltk.download('popular', quiet=True) # for downloading packages
+nltk.download('popular', quiet=True) # para baixar pacotes
 
+#Lendo no corpus
 with open('chatbot.txt','r', encoding='utf8', errors ='ignore') as fin:
     raw = fin.read().lower()
 
+# tokenização
+sent_tokens = nltk.sent_tokenize(raw) # converte para lista de frases
+word_tokens = nltk.word_tokenize(raw) # converte para lista de palavras
 
-sent_tokens = nltk.sent_tokenize(raw)
-word_tokens = nltk.word_tokenize(raw)
-
-
+# Pré-processamento
+# função para tomar entrada os tokens e retornar os tokens normalizados.
 lemmer = WordNetLemmatizer()
 def LemTokens(tokens):
     return [lemmer.lemmatize(token) for token in tokens]
@@ -29,7 +32,7 @@ def LemNormalize(text):
     return LemTokens(nltk.word_tokenize(text.lower().translate(remove_punct_dict)))
 
 
-
+# palavras-chave correspondente para saudações
 GREETING_INPUTS = ("hello", "hi", "greetings", "sup", "what's up","hey",)
 GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me"]
 
@@ -39,7 +42,9 @@ def greeting(sentence):
         if word.lower() in GREETING_INPUTS:
             return random.choice(GREETING_RESPONSES)
 
-
+# Gerando resposta
+# função de resposta que pesquisa a expressão do usuário por uma ou mais palavras-chave conhecidas e retorna uma das várias respostas possíveis.
+# Se não encontrar a entrada que corresponda a qualquer uma das palavras-chave, ele retornará uma resposta: ” DESCULPE MAS NÃO TE ENTENDI”
 def response(user_response):
     robo_response=''
     sent_tokens.append(user_response)
@@ -52,14 +57,13 @@ def response(user_response):
     req_tfidf = flat[-2]
     if(req_tfidf==0):
         robo_response=robo_response+"DESCULPE MAS NÃO TE ENTENDI"
-        return robo_response
     else:
         robo_response = robo_response+sent_tokens[idx]
         return robo_response
 
 
 flag=True
-print("ROBO: eu sou um robo e irei responder algumas pergunas sobre os chat bots com o dialogo em inglês. se voc~e quiser sair digite tchau!")
+print("ROBO: eu sou um robo e irei responder algumas pergunas sobre os chat bots com o dialogo em inglês. se você quiser sair digite tchau!")
 while(flag==True):
     user_response = input()
     user_response=user_response.lower()
