@@ -18,7 +18,7 @@ nltk.download('popular', quiet=True) # para baixar pacotes
 with open('chatbot.txt','r', encoding='utf8', errors ='ignore') as fin:
     raw = fin.read().lower()
 
-# tokenização
+# processo de tokenização
 sent_tokens = nltk.sent_tokenize(raw) # converte para lista de frases
 word_tokens = nltk.word_tokenize(raw) # converte para lista de palavras
 
