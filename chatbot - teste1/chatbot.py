@@ -1,4 +1,4 @@
-
+#importando bibliotecas
 import io
 import random
 import string # to process standard python strings
